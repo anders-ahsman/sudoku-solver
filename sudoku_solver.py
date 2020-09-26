@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
-from typing import List
+from copy import deepcopy
+from typing import List, Optional
 
 
-board: List[List[int]] = [
+board_easy: List[List[int]] = [
     [0, 0, 0, 2, 6, 0, 7, 0, 1],
     [6, 8, 0, 0, 7, 0, 0, 9, 0],
     [1, 9, 0, 0, 0, 4, 5, 0, 0],
@@ -14,31 +15,37 @@ board: List[List[int]] = [
     [0, 4, 0, 0, 5, 0, 0, 3, 6],
     [7, 0, 3, 0, 1, 8, 0, 0, 0]
 ]
+solution: Optional[List[List[int]]] = None
 
 
-def solve() -> None:
-    global board
+def solve(board: List[List[int]]) -> List[List[int]]:
+    global solution
+
+    _solve(board)
+
+    if solution is not None:
+        return solution
+    raise Exception('Did not find solution!')
+
+
+def _solve(board: List[List[int]]) -> None:
+    global solution
 
     for y in range(9):
         for x in range(9):
             if board[y][x] == 0:
                 for n in range(1, 10):
-                    if possible(x, y, n):
+                    if possible(board, x, y, n):
                         board[y][x] = n
-                        solve()
+                        _solve(board)
                         board[y][x] = 0  # reset position after backtracking
                 return  # reached dead end, backtrack
 
     # arrived at solution
-    for y in range(9):
-        print(' '.join([str(n) for n in board[y]]))
-
-    input('More?')  # can be more than one solution
+    solution = deepcopy(board)
 
 
-def possible(x: int, y: int, n: int) -> bool:
-    global board
-
+def possible(board: List[List[int]], x: int, y: int, n: int) -> bool:
     if n in board[y]:
         return False
 
@@ -57,4 +64,6 @@ def possible(x: int, y: int, n: int) -> bool:
 
 
 if __name__ == '__main__':
-    solve()
+    solution = solve(board_easy)
+    for y in range(9):
+        print(' '.join([str(n) for n in solution[y]]))
