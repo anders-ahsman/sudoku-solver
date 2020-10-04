@@ -9,6 +9,9 @@ pylint = "*"
 pytest = "*"
 
 [packages]
+boto3 = "*"
+numpy = "*"
+opencv-python = "*"
 
 [requires]
 python_version = "3.8"
