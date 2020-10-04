@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 from copy import deepcopy
-from typing import List, Optional
+from typing import Optional
 
-Board = List[List[int]]
+from common import Board
+
 
 board_easy: Board = [
     [0, 0, 0, 2, 6, 0, 7, 0, 1],

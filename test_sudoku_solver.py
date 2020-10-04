@@ -1,4 +1,5 @@
-from sudoku_solver import Board, solve
+from common import Board
+from sudoku_solver import solve
 
 
 def test_solves_easy_puzzle():
