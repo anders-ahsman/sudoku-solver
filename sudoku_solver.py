@@ -21,8 +21,8 @@ def solve(board: Board) -> Optional[Board]:
                         solution: Optional[Board] = solve(local_board)
                         if solution is not None:
                             return solution
-                return None  # no solution
-    return None  # no solution
+                return None  # no solution for this branch, backtrack
+    return None  # no solution possible
 
 
 def _is_possible(board: Board, row: int, col: int, n: int) -> bool:
