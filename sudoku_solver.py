@@ -20,52 +20,47 @@ board_easy: Board = [
 solution: Optional[Board] = None
 
 
-def solve(board: Board) -> Board:
-    global solution
+def solve(board: Board) -> Optional[Board]:
+    # only assigns valid numbers => if all positions are filled a solution has been found (base case)
+    if all(board[row][col] != 0 for row in range(9) for col in range(9)):
+        return board
 
-    _solve(board)
-
-    if solution is not None:
-        return solution
-    raise Exception('Did not find solution!')
-
-
-def _solve(board: Board) -> None:
-    global solution
-
-    for y in range(9):
-        for x in range(9):
-            if board[y][x] == 0:
+    local_board: Board = deepcopy(board)
+    for row in range(9):
+        for col in range(9):
+            if local_board[row][col] == 0:
                 for n in range(1, 10):
-                    if _is_possible(board, x, y, n):
-                        board[y][x] = n
-                        _solve(board)
-                        board[y][x] = 0  # reset position after backtracking
-                return  # reached dead end, backtrack
+                    if _is_possible(local_board, row, col, n):
+                        local_board[row][col] = n
+                        solution: Optional[Board] = solve(local_board)
+                        if solution is not None:
+                            return solution
+                return None  # no solution
+    return None  # no solution
 
-    # arrived at solution
-    solution = deepcopy(board)
 
-
-def _is_possible(board: Board, x: int, y: int, n: int) -> bool:
-    if n in board[y]:
+def _is_possible(board: Board, row: int, col: int, n: int) -> bool:
+    if n in board[row]:
         return False
 
-    for i in range(9):
-        if board[i][x] == n:
+    for r in range(9):
+        if board[r][col] == n:
             return False
 
-    y_start = (y // 3) * 3
-    x_start = (x // 3) * 3
-    for i in range(y_start, y_start + 3):
-        for j in range(x_start, x_start + 3):
-            if board[i][j] == n:
+    row_start = (row // 3) * 3
+    col_start = (col // 3) * 3
+    for r in range(row_start, row_start + 3):
+        for c in range(col_start, col_start + 3):
+            if board[r][c] == n:
                 return False
 
     return True
 
 
 if __name__ == '__main__':
-    solution = solve(board_easy)
-    for y in range(9):
-        print(' '.join([str(n) for n in solution[y]]))
+    solution: Optional[Board] = solve(board_easy)
+    if solution is None:
+        print('No solution found!')
+    else:
+        for row in range(9):
+            print(' '.join([str(n) for n in solution[row]]))
