@@ -151,3 +151,6 @@ node_modules/
 
 # Visual Studio Code directories
 .vscode/
+
+# Other
+.DS_Store
