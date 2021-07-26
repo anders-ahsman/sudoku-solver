@@ -4,14 +4,14 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-flake8 = "*"
-pylint = "*"
-pytest = "*"
+flake8 = "==3.8.4"
+pylint = "==2.6.0"
+pytest = "==6.1.1"
 
 [packages]
-boto3 = "*"
-numpy = "*"
-opencv-python = "*"
+boto3 = "==1.15.11"
+numpy = "==1.19.2"
+opencv-python = "==4.4.0.44"
 
 [requires]
 python_version = "3.8"
